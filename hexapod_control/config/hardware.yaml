@@ -1,0 +1,201 @@
+# Hardware Configuration for Hexapod Robot
+# Raspberry Pi 5 with Hailo-8L acceleration module
+
+# Hexapod Physical Parameters
+hexapod:
+  leg_count: 6
+
+  # Leg dimensions (in millimeters)
+  dimensions:
+    coxa_length: 52.0      # Hip segment
+    femur_length: 65.0     # Upper leg segment
+    tibia_length: 121.0    # Lower leg segment
+
+  # Body dimensions
+  body:
+    radius: 90.0           # Distance from center to leg attachment
+    height: 60.0           # Default standing height
+
+  # Leg attachment angles (degrees, relative to forward direction)
+  leg_angles:
+    leg_0: 45.0            # Front right
+    leg_1: 135.0           # Middle right
+    leg_2: 225.0           # Rear right
+    leg_3: 315.0           # Rear left
+    leg_4: 225.0           # Middle left (note: mirrored)
+    leg_5: 135.0           # Front left
+
+# Servo Configuration
+servos:
+  # Servo driver (PCA9685 I2C PWM driver)
+  driver:
+    type: "PCA9685"
+    i2c_address: 0x40
+    i2c_bus: 1
+    frequency: 50          # PWM frequency in Hz (standard for servos)
+
+  # Servo specifications
+  specs:
+    min_pulse: 500         # Minimum pulse width (microseconds)
+    max_pulse: 2500        # Maximum pulse width (microseconds)
+    min_angle: 0           # Minimum angle (degrees)
+    max_angle: 180         # Maximum angle (degrees)
+
+  # Individual servo mappings (PCA9685 channel assignments)
+  # Format: leg_index.joint_type: channel
+  channels:
+    # Leg 0 (Front Right)
+    0.coxa: 0
+    0.femur: 1
+    0.tibia: 2
+
+    # Leg 1 (Middle Right)
+    1.coxa: 3
+    1.femur: 4
+    1.tibia: 5
+
+    # Leg 2 (Rear Right)
+    2.coxa: 6
+    2.femur: 7
+    2.tibia: 8
+
+    # Leg 3 (Rear Left)
+    3.coxa: 9
+    3.femur: 10
+    3.tibia: 11
+
+    # Leg 4 (Middle Left)
+    4.coxa: 12
+    4.femur: 13
+    4.tibia: 14
+
+    # Leg 5 (Front Left)
+    5.coxa: 15
+    5.femur: 16
+    5.tibia: 17
+
+  # Servo trim/offset values (degrees, adjust per servo for calibration)
+  offsets:
+    0.coxa: 0
+    0.femur: 0
+    0.tibia: 0
+    1.coxa: 0
+    1.femur: 0
+    1.tibia: 0
+    2.coxa: 0
+    2.femur: 0
+    2.tibia: 0
+    3.coxa: 0
+    3.femur: 0
+    3.tibia: 0
+    4.coxa: 0
+    4.femur: 0
+    4.tibia: 0
+    5.coxa: 0
+    5.femur: 0
+    5.tibia: 0
+
+# IMU Sensor (BNO055 or MPU-9250)
+imu:
+  type: "BNO055"           # Options: BNO055, MPU9250
+  i2c_address: 0x28        # BNO055 default address (0x29 if ADR pin high)
+  i2c_bus: 1
+  update_rate: 100         # Hz
+  calibration_file: "config/imu_calibration.json"
+
+# GPS Module
+gps:
+  type: "NEO-M8N"          # u-blox NEO-M8N or NEO-M9N
+  serial_port: "/dev/ttyAMA0"
+  baud_rate: 9600
+  update_rate: 1           # Hz
+
+# LiDAR Sensor
+lidar:
+  type: "TFMini-S"         # Options: TFMini-S, RPLidar-A1
+  serial_port: "/dev/ttyUSB0"
+  baud_rate: 115200
+  range_max: 12.0          # meters
+  range_min: 0.1           # meters
+  field_of_view: 360       # degrees (for scanning LiDAR)
+
+# Camera
+camera:
+  type: "RaspberryPi_v3"   # Raspberry Pi Camera Module 3
+  resolution:
+    width: 1280
+    height: 720
+  framerate: 30
+  rotation: 0              # degrees (0, 90, 180, 270)
+
+# Hailo-8L Accelerator
+hailo:
+  device: "/dev/hailo0"
+  model_path: "/home/pi/models/"
+
+  # YOLOv8n configuration
+  yolov8:
+    model_file: "yolov8n.hef"
+    input_size: [640, 640]
+    confidence_threshold: 0.5
+    nms_threshold: 0.4
+
+  # MobileNetV2 configuration
+  mobilenet:
+    model_file: "mobilenetv2.hef"
+    input_size: [224, 224]
+
+# Ultrasonic Sensors (optional, for redundancy)
+ultrasonic:
+  enabled: true
+  sensors:
+    - name: "front"
+      trigger_pin: 23
+      echo_pin: 24
+    - name: "front_left"
+      trigger_pin: 17
+      echo_pin: 27
+    - name: "front_right"
+      trigger_pin: 22
+      echo_pin: 10
+
+# Touch/Pressure Sensors (FSR on feet)
+touch_sensors:
+  enabled: true
+  leg_sensors:
+    0: 5    # GPIO pin for leg 0 foot sensor
+    1: 6
+    2: 13
+    3: 19
+    4: 26
+    5: 21
+
+# Power Monitoring
+power:
+  enabled: true
+  type: "INA219"
+  i2c_address: 0x41
+  i2c_bus: 1
+  shunt_ohms: 0.1
+  max_expected_amps: 3.0
+
+# LoRaWAN Module
+lorawan:
+  type: "SX1276"           # Options: SX1276, SX1278, RAK811
+  spi_bus: 0
+  spi_device: 0
+  interrupt_pin: 25
+  reset_pin: 22
+
+  # LoRaWAN configuration
+  frequency: 868.1         # MHz (EU868 band)
+  spreading_factor: 7      # 7-12 (lower = faster, shorter range)
+  bandwidth: 125000        # Hz
+  coding_rate: 5           # 5-8
+  tx_power: 14             # dBm
+
+  # The Things Network configuration
+  ttn:
+    device_eui: "0000000000000000"  # Replace with actual DevEUI
+    app_eui: "0000000000000000"     # Replace with actual AppEUI
+    app_key: "00000000000000000000000000000000"  # Replace with actual AppKey

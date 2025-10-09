@@ -1,0 +1,240 @@
+# Azure IoT Hub Configuration Template
+# Copy this file to azure_config.yaml and fill in your actual values
+# IMPORTANT: Never commit azure_config.yaml with real credentials to version control
+
+# Azure IoT Hub Connection
+azure_iot:
+  # Device connection string (primary or secondary)
+  # Format: "HostName={hub_name}.azure-devices.net;DeviceId={device_id};SharedAccessKey={key}"
+  connection_string: "HostName=YOUR_IOT_HUB.azure-devices.net;DeviceId=YOUR_DEVICE_ID;SharedAccessKey=YOUR_KEY"
+
+  # Alternative: Use individual components (if not using connection string)
+  # hub_hostname: "YOUR_IOT_HUB.azure-devices.net"
+  # device_id: "hexapod-001"
+  # shared_access_key: "YOUR_SHARED_ACCESS_KEY"
+
+  # Protocol (MQTT, AMQP, HTTP)
+  protocol: "MQTT"
+
+  # Keep-alive interval (seconds)
+  keep_alive: 60
+
+  # Connection timeout (seconds)
+  connection_timeout: 30
+
+  # Auto-reconnect settings
+  reconnect:
+    enabled: true
+    max_retries: 10
+    retry_interval: 5      # seconds
+    exponential_backoff: true
+
+# Device Twin Configuration
+device_twin:
+  # Enable device twin synchronization
+  enabled: true
+
+  # Reported properties update interval (seconds)
+  update_interval: 300     # 5 minutes
+
+  # Desired properties to listen for
+  desired_properties:
+    - "gait_mode"
+    - "max_speed"
+    - "autonomy_level"
+    - "telemetry_interval"
+    - "energy_optimization"
+
+# Telemetry Configuration
+telemetry:
+  # Message format (JSON, Protobuf)
+  format: "JSON"
+
+  # Compression (none, gzip)
+  compression: "none"
+
+  # Batching
+  batching:
+    enabled: true
+    max_messages: 10
+    max_wait_time: 30.0    # seconds
+
+  # QoS level (0, 1, 2)
+  qos: 1
+
+  # Message properties
+  properties:
+    # Custom properties to include in all messages
+    device_type: "hexapod"
+    firmware_version: "1.0.0"
+    location_region: "field_alpha"
+
+# Cloud-to-Device (C2D) Messages
+c2d_messages:
+  # Enable C2D message reception
+  enabled: true
+
+  # Supported commands
+  commands:
+    - "set_mode"           # Set operational mode
+    - "goto_position"      # Navigate to GPS coordinates
+    - "return_to_base"     # Return to home position
+    - "emergency_stop"     # Emergency stop
+    - "update_config"      # Update device configuration
+    - "request_diagnostics"  # Send diagnostic report
+    - "capture_image"      # Take photo with camera
+    - "change_gait"        # Change gait pattern
+
+# Direct Methods
+direct_methods:
+  # Enable direct method invocation
+  enabled: true
+
+  # Response timeout (seconds)
+  timeout: 30
+
+  # Supported methods
+  methods:
+    - name: "get_status"
+      description: "Get current device status"
+
+    - name: "set_autonomy_mode"
+      description: "Change autonomy level"
+      parameters:
+        - "mode"           # autonomous, semi_autonomous, remote_control
+
+    - name: "navigate_to"
+      description: "Navigate to coordinates"
+      parameters:
+        - "latitude"
+        - "longitude"
+
+    - name: "emergency_stop"
+      description: "Immediate stop"
+
+    - name: "reboot"
+      description: "Reboot device"
+
+    - name: "update_firmware"
+      description: "Initiate firmware update"
+      parameters:
+        - "firmware_url"
+
+# Azure IoT Edge (if using Edge runtime)
+iot_edge:
+  # Enable IoT Edge mode
+  enabled: false
+
+  # Edge runtime version
+  runtime_version: "1.4"
+
+  # Modules to deploy
+  modules:
+    - name: "vision_module"
+      image: "hexapod/vision:latest"
+      restart_policy: "always"
+
+    - name: "navigation_module"
+      image: "hexapod/navigation:latest"
+      restart_policy: "always"
+
+    - name: "telemetry_module"
+      image: "hexapod/telemetry:latest"
+      restart_policy: "always"
+
+# Azure Blob Storage (for logs and recordings)
+blob_storage:
+  # Enable blob upload
+  enabled: false
+
+  # Connection string
+  connection_string: "DefaultEndpointsProtocol=https;AccountName=YOUR_ACCOUNT;AccountKey=YOUR_KEY;EndpointSuffix=core.windows.net"
+
+  # Container names
+  containers:
+    logs: "hexapod-logs"
+    telemetry: "hexapod-telemetry"
+    images: "hexapod-images"
+    diagnostics: "hexapod-diagnostics"
+
+  # Upload intervals
+  upload_interval: 3600    # seconds (1 hour)
+
+  # Upload on WiFi only (conserve LoRaWAN bandwidth)
+  wifi_only: true
+
+# Diagnostics & Monitoring
+diagnostics:
+  # Enable Azure Monitor integration
+  azure_monitor:
+    enabled: false
+    workspace_id: "YOUR_WORKSPACE_ID"
+    workspace_key: "YOUR_WORKSPACE_KEY"
+
+  # Metrics to report
+  metrics:
+    - "cpu_usage"
+    - "memory_usage"
+    - "battery_level"
+    - "temperature"
+    - "network_latency"
+    - "message_success_rate"
+
+  # Logging level
+  logging_level: "INFO"    # DEBUG, INFO, WARNING, ERROR, CRITICAL
+
+# Security
+security:
+  # Certificate-based authentication (alternative to SAS)
+  certificate_auth:
+    enabled: false
+    cert_file: "/etc/hexapod/certs/device-cert.pem"
+    key_file: "/etc/hexapod/certs/device-key.pem"
+
+  # X.509 certificate validation
+  validate_certificates: true
+
+  # TLS version
+  tls_version: "1.2"
+
+# Offline Capabilities
+offline:
+  # Local message queue when offline
+  queue:
+    enabled: true
+    max_size: 1000         # messages
+    storage_path: "/var/hexapod/queue"
+
+  # Sync strategy when connection restored
+  sync_strategy: "time_based"  # time_based, priority_based, fifo
+
+  # Maximum offline duration before purging old messages (hours)
+  max_offline_hours: 24
+
+# Rate Limiting & Quotas
+rate_limiting:
+  # Maximum messages per day (Azure IoT Hub free tier: 8000)
+  max_messages_per_day: 5000
+
+  # Throttling when approaching limit
+  throttle_threshold: 0.8  # Start throttling at 80% of quota
+
+  # Throttled message interval (seconds)
+  throttled_interval: 300
+
+# Development & Testing
+development:
+  # Mock Azure connection (for testing without actual IoT Hub)
+  mock_connection: false
+
+  # Verbose logging
+  verbose_logging: false
+
+  # Simulate telemetry (for testing)
+  simulate_telemetry: false
+
+  # Local MQTT broker for testing
+  local_mqtt:
+    enabled: false
+    broker: "localhost"
+    port: 1883
