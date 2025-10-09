@@ -1,0 +1,63 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.whl
+.Python
+venv/
+env/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Configuration files with secrets
+config/azure_config.yaml
+config/imu_calibration.json
+*.env
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled C/C++ libraries
+locomotion/lib/*.so
+locomotion/lib/*.o
+locomotion/lib/build/
+
+# Data and telemetry
+data/
+telemetry/
+*.db
+*.sqlite
+
+# Temporary files
+*.tmp
+*.bak
+temp/
+
+# Azure and IoT
+.azure/
+device_provisioning/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
