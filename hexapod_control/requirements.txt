@@ -16,9 +16,9 @@ pillow==10.1.0
 # Sensor Interfacing
 smbus2==0.4.3              # I2C communication
 gpiozero==2.0.1            # GPIO control
-pigpio==1.78               # Hardware PWM for servos
+pigpio==1.78               # Hardware PWM for servos (if using PCA9685 - legacy)
 adafruit-circuitpython-bno055==5.4.10  # BNO055 IMU
-adafruit-circuitpython-pca9685==3.4.9  # PCA9685 servo driver
+adafruit-circuitpython-pca9685==3.4.9  # PCA9685 servo driver (legacy - optional)
 
 # Scientific Computing
 scipy==1.11.4              # IK solver utilities
@@ -31,7 +31,7 @@ loguru==0.7.2
 
 # Communication
 protobuf==4.25.1           # Efficient serialization
-pyserial==3.5              # Serial communication
+pyserial==3.5              # Serial communication (Pololu Maestro, GPS, LiDAR)
 paho-mqtt==1.6.1           # MQTT client
 
 # LoRaWAN (choose based on hardware)

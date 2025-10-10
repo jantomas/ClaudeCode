@@ -36,8 +36,12 @@ ls -l libik_solver.so libservo_driver.so
 
 ### 4. Hardware Connections (Raspberry Pi Only)
 
+#### USB Devices
+- [ ] Pololu Mini Maestro 18-Channel USB Servo Controller connected via USB
+- [ ] Maestro recognized as serial device (check `ls /dev/ttyACM*` or `dmesg | grep tty`)
+- [ ] Maestro device permissions configured (add user to `dialout` group)
+
 #### I2C Devices
-- [ ] PCA9685 servo driver connected to I2C (address 0x40)
 - [ ] BNO055 or MPU9250 IMU connected to I2C (address 0x28)
 - [ ] INA219 power monitor connected (optional, address 0x41)
 - [ ] I2C enabled via `raspi-config`
@@ -54,9 +58,10 @@ ls -l libik_solver.so libservo_driver.so
 - [ ] Common ground between Pi and servo power
 
 #### Servos
-- [ ] All 18 servos connected to PCA9685
-- [ ] Servo channels match configuration (0-17)
+- [ ] All 18 servos connected to Pololu Maestro (channels 0-17)
+- [ ] Servo channels match configuration in `hardware.yaml`
 - [ ] Servos can move freely (no mechanical binding)
+- [ ] Maestro powered appropriately (5-16V depending on servos)
 
 ### 5. Azure IoT Hub Setup
 
@@ -97,10 +102,10 @@ python main.py --mock --log-level DEBUG
 
 #### Servo Test
 ```bash
-# Test servo controller
+# Test Maestro servo controller
 python -c "
-from locomotion.servo_controller import ServoController
-servo = ServoController()
+from locomotion.maestro_controller import MaestroController
+servo = MaestroController()
 servo.initialize()
 servo.move_all_to_neutral()
 # Watch servos move to 90 degrees

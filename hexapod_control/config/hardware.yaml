@@ -27,21 +27,25 @@ hexapod:
 
 # Servo Configuration
 servos:
-  # Servo driver (PCA9685 I2C PWM driver)
+  # Servo driver (Pololu Mini Maestro 18-Channel USB Servo Controller)
   driver:
-    type: "PCA9685"
-    i2c_address: 0x40
-    i2c_bus: 1
-    frequency: 50          # PWM frequency in Hz (standard for servos)
+    type: "PololuMaestro"
+    model: "Mini18"        # Mini Maestro 18-Channel
+    serial_port: "/dev/ttyACM0"  # USB serial port (Linux/RPi)
+    # Windows: "COM3" or similar (check Device Manager)
+    # macOS: "/dev/cu.usbmodem*"
+    baud_rate: 115200      # Maestro baud rate (9600, 115200, etc.)
+    device_number: 12      # Maestro device number (default 12)
 
   # Servo specifications
   specs:
-    min_pulse: 500         # Minimum pulse width (microseconds)
-    max_pulse: 2500        # Maximum pulse width (microseconds)
+    min_pulse: 992         # Minimum pulse width (quarter-microseconds, 992 = 248us)
+    max_pulse: 8000        # Maximum pulse width (quarter-microseconds, 8000 = 2000us)
     min_angle: 0           # Minimum angle (degrees)
     max_angle: 180         # Maximum angle (degrees)
+    # Note: Maestro uses quarter-microsecond units (4 = 1 microsecond)
 
-  # Individual servo mappings (PCA9685 channel assignments)
+  # Individual servo mappings (Maestro channel assignments 0-17)
   # Format: leg_index.joint_type: channel
   channels:
     # Leg 0 (Front Right)

@@ -43,11 +43,12 @@ hexapod_control/
 ├── locomotion/                     # Movement control
 │   ├── __init__.py
 │   ├── ik_solver_wrapper.py       # Python wrapper for C++ IK
-│   ├── servo_controller.py        # Servo control interface (TODO)
-│   ├── gait_controller.py         # Gait pattern generator (TODO)
+│   ├── servo_controller.py        # Legacy servo control (PCA9685)
+│   ├── maestro_controller.py      # Pololu Maestro servo controller
+│   ├── gait_controller.py         # Gait pattern generator
 │   └── lib/                       # C/C++ performance libraries
 │       ├── ik_solver.cpp          # Inverse kinematics solver
-│       ├── servo_driver.c         # PCA9685 servo driver
+│       ├── servo_driver.c         # Legacy PCA9685 servo driver
 │       └── Makefile               # Build script
 │
 ├── sensors/                        # Sensor interfaces
@@ -94,7 +95,7 @@ hexapod_control/
 
 #### Hardware Requirements
 - Hailo-8L AI acceleration module
-- PCA9685 PWM servo driver (I2C)
+- Pololu Mini Maestro 18-Channel USB Servo Controller
 - BNO055 or MPU-9250 IMU
 - u-blox NEO-M8N/M9N GPS module
 - LoRaWAN module (SX1276/SX1278 or RAK811)
@@ -180,8 +181,10 @@ sudo i2cdetect -y 1
 
 # Expected devices:
 # 0x28 or 0x29 - BNO055 IMU
-# 0x40 - PCA9685 servo driver
 # 0x41 - INA219 power monitor (if installed)
+
+# Check Maestro USB connection
+ls /dev/ttyACM*
 
 # Calibrate servos (TODO: create calibration script)
 # python scripts/calibrate_servos.py
@@ -196,9 +199,10 @@ sudo i2cdetect -y 1
 
 Key parameters to configure:
 - **Leg dimensions**: `hexapod.dimensions` (coxa/femur/tibia lengths in mm)
-- **Servo channels**: `servos.channels` (PCA9685 channel mapping)
+- **Servo channels**: `servos.channels` (Maestro channel mapping 0-17)
 - **Servo offsets**: `servos.offsets` (calibration trim values)
-- **I2C addresses**: `imu.i2c_address`, `servos.driver.i2c_address`
+- **Serial port**: `servos.driver.serial_port` (/dev/ttyACM0 on Linux)
+- **I2C addresses**: `imu.i2c_address`
 - **LoRaWAN credentials**: `lorawan.ttn` (DevEUI, AppEUI, AppKey)
 
 ### Behavior Configuration (`config/behavior.yaml`)
@@ -272,7 +276,7 @@ python -m pytest tests/
                  ▼
 ┌────────────────────────────────────────┐
 │         Servo Control Layer            │
-│      (PCA9685 + Hardware PWM)          │
+│     (Pololu Maestro USB Serial)        │
 └────────────────────────────────────────┘
 ```
 
