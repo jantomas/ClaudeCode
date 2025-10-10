@@ -99,7 +99,13 @@ class ServoController:
 
     def _load_library(self):
         """Load C servo driver library."""
-        lib_path = Path(__file__).parent / "lib" / "libservo_driver.so"
+        import sys
+        lib_dir = Path(__file__).parent / "lib"
+
+        if sys.platform == "win32":
+            lib_path = lib_dir / "libservo_driver.dll"
+        else:
+            lib_path = lib_dir / "libservo_driver.so"
 
         if not lib_path.exists():
             logger.warning(

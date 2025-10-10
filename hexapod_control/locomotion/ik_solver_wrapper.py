@@ -73,9 +73,14 @@ class IKSolver:
             lib_path: Path to compiled IK solver library (.so file)
         """
         if lib_path is None:
-            # Auto-detect library path
+            # Auto-detect library path based on platform
+            import sys
             lib_dir = Path(__file__).parent / "lib"
-            lib_path = lib_dir / "libik_solver.so"
+
+            if sys.platform == "win32":
+                lib_path = lib_dir / "libik_solver.dll"
+            else:
+                lib_path = lib_dir / "libik_solver.so"
 
         if not Path(lib_path).exists():
             logger.warning(

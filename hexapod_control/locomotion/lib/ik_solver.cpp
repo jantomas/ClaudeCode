@@ -9,6 +9,11 @@
 #include <algorithm>
 #include <stdexcept>
 
+// Define M_PI if not defined (required for MSVC and some compilers)
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 // Struct for 3D position
 struct Position3D {
     double x;
