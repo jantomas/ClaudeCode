@@ -190,10 +190,13 @@ sudo i2cdetect -y 1
 # Check Maestro USB connection
 ls /dev/ttyACM*
 
-# Calibrate servos (TODO: create calibration script)
+# Test servo wiring (verify channel mapping)
+python scripts/test_servo_wiring.py
+
+# Calibrate servos (TODO)
 # python scripts/calibrate_servos.py
 
-# Calibrate IMU
+# Calibrate IMU (TODO)
 # python scripts/calibrate_imu.py
 ```
 
@@ -254,6 +257,33 @@ python main.py --mock
 # Test individual modules
 python -m pytest tests/
 ```
+
+### Testing and Calibration
+
+#### Servo Wiring Test
+
+Verify servo connections and channel mapping:
+
+```bash
+# Interactive mode
+python scripts/test_servo_wiring.py
+
+# Test specific channel
+python scripts/test_servo_wiring.py --channel 0
+
+# Test all servos on a leg
+python scripts/test_servo_wiring.py --leg 0
+
+# Test all servos sequentially
+python scripts/test_servo_wiring.py --all
+
+# Show channel mapping
+python scripts/test_servo_wiring.py --map
+```
+
+The utility shows which leg and joint should move for each channel, making it easy to verify correct wiring.
+
+See [scripts/README.md](scripts/README.md) for more testing utilities.
 
 ## Architecture
 
