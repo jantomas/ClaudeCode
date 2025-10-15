@@ -141,6 +141,10 @@ source venv/bin/activate
 # Install requirements
 pip install --upgrade pip
 pip install -r requirements.txt
+
+# If installation fails on Raspberry Pi (uamqp build error):
+# See RASPBERRY_PI_INSTALL.md for solutions
+# Quick fix: pip install -r requirements-rpi.txt
 ```
 
 #### 4. Install Hailo SDK
@@ -353,6 +357,18 @@ mypy .
 ```
 
 ## Troubleshooting
+
+### Raspberry Pi Specific Issues
+
+**⚠️ For detailed Raspberry Pi troubleshooting, see [RASPBERRY_PI_INSTALL.md](RASPBERRY_PI_INSTALL.md)**
+
+**uamqp build failure on Raspberry Pi**
+```bash
+# Quick solution: Use Raspberry Pi specific requirements
+pip install -r requirements-rpi.txt
+
+# Detailed solutions in RASPBERRY_PI_INSTALL.md
+```
 
 ### Common Issues
 

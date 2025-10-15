@@ -6,7 +6,7 @@
 
 - [ ] Python 3.11+ installed
 - [ ] Virtual environment created
-- [ ] Dependencies installed from `requirements.txt`
+- [ ] Dependencies installed from `requirements.txt` (or `requirements-rpi.txt` on Raspberry Pi)
 - [ ] C/C++ build tools installed (gcc, g++, make)
 - [ ] pigpio library installed (Raspberry Pi only)
 - [ ] Hailo SDK installed (Raspberry Pi 5 with Hailo-8L)
@@ -244,7 +244,7 @@ cd hexapod_control
 # 4. Python environment
 python3 -m venv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-rpi.txt  # Use requirements-rpi.txt on Raspberry Pi
 
 # 5. Install Hailo SDK
 wget https://hailo.ai/downloads/hailo-runtime-latest.deb

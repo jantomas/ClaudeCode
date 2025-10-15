@@ -1,10 +1,16 @@
+# Raspberry Pi Specific Requirements
+# Use this file if requirements.txt fails on Raspberry Pi due to uamqp build errors
+# Installation: pip install -r requirements-rpi.txt
+
 # Core Python dependencies
 # python-version>=3.11
 
-# Azure IoT SDK
+# Azure IoT SDK (Device SDK only - works without uamqp)
 azure-iot-device==2.13.0
-# Note: azure-iot-hub has uamqp dependency that may fail to build on Raspberry Pi
-# If installation fails, see requirements-rpi.txt for Raspberry Pi specific version
+
+# Note: azure-iot-hub is excluded as it requires uamqp which fails to build on ARM
+# For service-side operations (device management), use Azure CLI or REST API instead
+# The device SDK (azure-iot-device) is sufficient for telemetry, C2D, direct methods
 
 # Computer Vision & AI
 opencv-python==4.8.1.78
