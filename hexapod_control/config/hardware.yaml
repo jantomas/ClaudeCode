@@ -101,11 +101,17 @@ servos:
 
 # IMU Sensor (BNO055 or MPU-9250)
 imu:
-  type: "BNO055"           # Options: BNO055, MPU9250
-  i2c_address: 0x28        # BNO055 default address (0x29 if ADR pin high)
+  type: "MPU9250"          # Options: BNO055, MPU9250
+  i2c_address: 0x68        # MPU9250 default address (0x69 if AD0 pin high)
   i2c_bus: 1
   update_rate: 100         # Hz
   calibration_file: "config/imu_calibration.json"
+
+  # MPU9250 specific settings
+  gyro_range: 250          # Gyroscope range: 250, 500, 1000, 2000 (degrees/sec)
+  accel_range: 2           # Accelerometer range: 2, 4, 8, 16 (g)
+  mag_mode: 0x06           # Magnetometer mode: 0x02=8Hz, 0x06=100Hz
+  dlpf_cfg: 3              # Digital Low Pass Filter: 0-6 (3 = 41Hz bandwidth)
 
 # GPS Module
 gps:
