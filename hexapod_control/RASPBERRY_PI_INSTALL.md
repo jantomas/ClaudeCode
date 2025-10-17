@@ -15,8 +15,31 @@ The `azure-iot-hub` package depends on `uamqp`, a C extension that often fails t
 We provide **three solutions** - choose the one that works best for your use case:
 
 ---
+## Solution 0: Assure python v 3.11 (Recommended)
 
-## Solution 1: Use Raspberry Pi Requirements (Recommended)
+### Installation Steps
+
+```bash
+chmod +x updatepythonV311.sh
+# Takes cca 20 minutes
+sh updatepythonV311.sh
+# Check if available
+python3.11 --version
+# Remove previous virtual environment
+rm -rf venv
+# Create a new virtual environment
+python3.11 -m venv venv
+python --version
+# Activate virtual environment
+source venv/bin/activate
+# Use Raspberry Pi specific requirements
+pip install --upgrade pip
+pip install -r requirements-rpi.txt
+```
+
+---
+
+## Solution 1: Use Raspberry Pi Requirements 
 
 This is the **easiest and most reliable** solution for Raspberry Pi.
 
