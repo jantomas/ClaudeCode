@@ -7,23 +7,23 @@ hexapod:
 
   # Leg dimensions (in millimeters)
   dimensions:
-    coxa_length: 52.0      # Hip segment
-    femur_length: 65.0     # Upper leg segment
-    tibia_length: 121.0    # Lower leg segment
+    coxa_length: 40.0      # Hip segment
+    femur_length: 60.0     # Upper leg segment
+    tibia_length: 135.0    # Lower leg segment
 
   # Body dimensions
   body:
     radius: 90.0           # Distance from center to leg attachment
-    height: 60.0           # Default standing height
+    height: 45.0           # Default standing height
 
   # Leg attachment angles (degrees, relative to forward direction)
   leg_angles:
     leg_0: 45.0            # Front right
-    leg_1: 135.0           # Middle right
-    leg_2: 225.0           # Rear right
-    leg_3: 315.0           # Rear left
-    leg_4: 225.0           # Middle left (note: mirrored)
-    leg_5: 135.0           # Front left
+    leg_1: 90.0           # Middle right
+    leg_2: 135.0           # Rear right
+    leg_3: 225.0           # Rear left
+    leg_4: 270.0           # Middle left (note: mirrored)
+    leg_5: 315.0           # Front left
 
 # Servo Configuration
 servos:
@@ -34,13 +34,13 @@ servos:
     serial_port: "/dev/ttyACM0"  # USB serial port (Linux/RPi)
     # Windows: "COM3" or similar (check Device Manager)
     # macOS: "/dev/cu.usbmodem*"
-    baud_rate: 115200      # Maestro baud rate (9600, 115200, etc.)
+    baud_rate: 9600      # Maestro baud rate (9600, 115200, etc.)
     device_number: 12      # Maestro device number (default 12)
 
   # Servo specifications
   specs:
     min_pulse: 992         # Minimum pulse width (quarter-microseconds, 992 = 248us)
-    max_pulse: 8000        # Maximum pulse width (quarter-microseconds, 8000 = 2000us)
+    max_pulse: 2000        # Maximum pulse width (quarter-microseconds, 8000 = 2000us)
     min_angle: 0           # Minimum angle (degrees)
     max_angle: 180         # Maximum angle (degrees)
     # Note: Maestro uses quarter-microsecond units (4 = 1 microsecond)
@@ -49,34 +49,34 @@ servos:
   # Format: leg_index.joint_type: channel
   channels:
     # Leg 0 (Front Right)
-    0.coxa: 0
-    0.femur: 1
-    0.tibia: 2
+    0.coxa: 15
+    0.femur: 17
+    0.tibia: 16
 
     # Leg 1 (Middle Right)
-    1.coxa: 3
+    1.coxa: 5
     1.femur: 4
-    1.tibia: 5
+    1.tibia: 3
 
     # Leg 2 (Rear Right)
-    2.coxa: 6
-    2.femur: 7
-    2.tibia: 8
+    2.coxa: 2
+    2.femur: 1
+    2.tibia: 0
 
     # Leg 3 (Rear Left)
-    3.coxa: 9
-    3.femur: 10
-    3.tibia: 11
+    3.coxa: 8
+    3.femur: 6
+    3.tibia: 7
 
     # Leg 4 (Middle Left)
-    4.coxa: 12
-    4.femur: 13
-    4.tibia: 14
+    4.coxa: 11
+    4.femur: 9
+    4.tibia: 10
 
     # Leg 5 (Front Left)
-    5.coxa: 15
-    5.femur: 16
-    5.tibia: 17
+    5.coxa: 12
+    5.femur: 13
+    5.tibia: 14
 
   # Servo trim/offset values (degrees, adjust per servo for calibration)
   offsets:

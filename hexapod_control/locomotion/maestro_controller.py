@@ -202,8 +202,8 @@ class MaestroController:
         command = bytes([
             0x84,                 # Set Target command
             channel,              # Channel (0-17)
-            target & 0x7F,        # Low 7 bits
-            (target >> 7) & 0x7F  # High 7 bits
+            int(target & 0x7F),        # Low 7 bits
+            int((target >> 7) & 0x7F)  # High 7 bits
         ])
 
         return self._send_command(command)
