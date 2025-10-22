@@ -240,11 +240,10 @@ import time
 maestro = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
 
 # Set channel 0 to neutral position (6000 = 1500μs)
-# Command: 0x84, device_number, channel, target_low, target_high
+# Compact Protocol: 0x84, channel, target_low, target_high
 target = 6000
 command = bytes([
     0x84,                    # Set Target command
-    12,                      # Device number
     0,                       # Channel 0
     target & 0x7F,          # Low 7 bits
     (target >> 7) & 0x7F    # High 7 bits
@@ -327,30 +326,38 @@ python scripts/calibrate_maestro.py
 
 ## Pololu Protocol Reference
 
-The Maestro uses the Pololu Protocol for communication. Key commands:
+The Maestro supports two protocol modes:
 
-### Set Target (0x84)
+1. **Compact Protocol** (Used in this project) - No device number
+2. **Pololu Protocol** - Includes device number for daisy-chaining
+
+### Set Target (0x84) - Compact Protocol
 
 Sets servo position in quarter-microseconds:
 
 ```
-Command Format:
-[0x84] [device_number] [channel] [target_low] [target_high]
+Command Format (Compact Protocol):
+[0x84] [channel] [target_low] [target_high]
 
 Example: Set channel 0 to 1500μs (6000 quarter-μs)
 target = 6000 = 0x1770
 target_low  = 0x70 (low 7 bits)
 target_high = 0x2E (high 7 bits)
 
-Bytes: [0x84, 0x0C, 0x00, 0x70, 0x2E]
+Bytes: [0x84, 0x00, 0x70, 0x2E]
+       └─┬─┘  └─┬┘  └─┬┘  └─┬┘
+         │      │     │      │
+    Set Target Channel Low  High
 ```
 
-### Get Position (0x90)
+**Note**: We use Compact Protocol (no device number). If using Pololu Protocol for daisy-chaining multiple Maestros, add device number byte after 0x84.
+
+### Get Position (0x90) - Compact Protocol
 
 Reads current servo position:
 
 ```
-Command: [0x90] [device_number] [channel]
+Command: [0x90] [channel]
 Response: [position_low] [position_high]
 ```
 

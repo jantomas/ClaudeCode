@@ -177,7 +177,8 @@ class MaestroController:
         """
         Set target position for a servo channel.
 
-        Uses Pololu Protocol: 0x84, device number, channel, target_low, target_high
+        Uses Compact Protocol: 0x84, channel, target_low, target_high
+        (No device number in Compact Protocol)
 
         Args:
             channel: Servo channel (0-17)
@@ -193,16 +194,14 @@ class MaestroController:
         # Clamp target to valid range (0-65535 quarter-microseconds)
         target = max(0, min(65535, target))
 
-        # Build command: Pololu Protocol
-        # Command: 0x84 (Set Target)
-        # Device number
-        # Channel number
-        # Target low byte
-        # Target high byte
+        # Build command: Compact Protocol
+        # 0x84 = Set Target command
+        # channel = servo channel (0-17)
+        # target_low = low 7 bits of target
+        # target_high = high 7 bits of target
         command = bytes([
-            0x84,
-            self._device_number,
-            channel,
+            0x84,                 # Set Target command
+            channel,              # Channel (0-17)
             target & 0x7F,        # Low 7 bits
             (target >> 7) & 0x7F  # High 7 bits
         ])
@@ -356,8 +355,8 @@ class MaestroController:
         config = self._servo_configs[key]
 
         # Set target to 0 to disable servo
-        # Command: 0x84, device, channel, 0, 0
-        command = bytes([0x84, self._device_number, config.channel, 0, 0])
+        # Compact Protocol: 0x84, channel, 0, 0
+        command = bytes([0x84, config.channel, 0, 0])
         return self._send_command(command)
 
     def disable_all_servos(self) -> bool:
