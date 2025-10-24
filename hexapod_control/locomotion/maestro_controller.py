@@ -199,6 +199,7 @@ class MaestroController:
         # channel = servo channel (0-17)
         # target_low = low 7 bits of target
         # target_high = high 7 bits of target
+
         command = bytes([
             0x84,                 # Set Target command
             channel,              # Channel (0-17)

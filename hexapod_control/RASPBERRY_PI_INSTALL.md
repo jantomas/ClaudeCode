@@ -39,6 +39,12 @@ export LDFLAGS="-L /home/username/openssl/lib -Wl,-rpath,/home/username/openssl/
 which openssl
 openssl version
 
+# Install ctypes dependencies
+sudo apt install -y build-essential libffi-dev libssl-dev
+sudo apt install -y zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+sudo apt install -y libncurses5-dev libncursesw5-dev xz-utils tk-dev
+sudo apt install -y libxml2-dev libxmlsec1-dev liblzma-dev0
+
 # Switch to repository ...
 cd hexapod_control
 
@@ -241,6 +247,12 @@ sudo apt install -y i2c-tools libi2c-dev
 sudo apt install -y pigpio python3-pigpio
 sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
+
+# Install ctypes dependencies
+sudo apt install -y build-essential libffi-dev libssl-dev
+sudo apt install -y zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+sudo apt install -y libncurses5-dev libncursesw5-dev xz-utils tk-dev
+sudo apt install -y libxml2-dev libxmlsec1-dev liblzma-dev0
 ```
 
 ### 2. Enable Hardware Interfaces
