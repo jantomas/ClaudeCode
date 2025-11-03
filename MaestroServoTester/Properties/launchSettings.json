@@ -1,0 +1,24 @@
+{
+  "profiles": {
+    "Interactive": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    },
+    "Mock Mode": {
+      "commandName": "Project",
+      "commandLineArgs": "--mock"
+    },
+    "Test Channel 0": {
+      "commandName": "Project",
+      "commandLineArgs": "--channel 0"
+    },
+    "Show Map": {
+      "commandName": "Project",
+      "commandLineArgs": "--map"
+    },
+    "Test All": {
+      "commandName": "Project",
+      "commandLineArgs": "--all"
+    }
+  }
+}
