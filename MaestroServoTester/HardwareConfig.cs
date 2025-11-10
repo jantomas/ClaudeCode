@@ -20,17 +20,17 @@ public class DriverConfig
 {
     public string Type { get; set; } = "PololuMaestro";
     public string Model { get; set; } = "Mini18";
-    public string Serial_Port { get; set; } = "COM3";
-    public int Baud_Rate { get; set; } = 115200;
-    public int Device_Number { get; set; } = 12;
+    public string SerialPort { get; set; } = "COM3";
+    public int BaudRate { get; set; } = 9600;
+    public int DeviceNumber { get; set; } = 12;
 }
 
 public class SpecsConfig
 {
-    public int Min_Pulse { get; set; } = 992;
-    public int Max_Pulse { get; set; } = 8000;
-    public int Min_Angle { get; set; } = 0;
-    public int Max_Angle { get; set; } = 180;
+    public int MinPulse { get; set; } = 992;
+    public int MaxPulse { get; set; } = 8000;
+    public int MinAngle { get; set; } = 0;
+    public int MaxAngle { get; set; } = 180;
 }
 
 /// <summary>

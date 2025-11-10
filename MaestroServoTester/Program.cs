@@ -26,10 +26,10 @@ class Program
 
             // Create Maestro controller
             using var controller = new MaestroController(
-                config.Servos.Driver.Serial_Port,
-                config.Servos.Driver.Baud_Rate,
-                config.Servos.Specs.Min_Pulse,
-                config.Servos.Specs.Max_Pulse,
+                config.Servos.Driver.SerialPort,
+                config.Servos.Driver.BaudRate,
+                config.Servos.Specs.MinPulse,
+                config.Servos.Specs.MaxPulse,
                 mockMode
             );
 
@@ -108,13 +108,14 @@ class Program
 
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(UnderscoredNamingConvention.Instance)
+            .IgnoreUnmatchedProperties()
             .Build();
 
         var yaml = File.ReadAllText(configPath);
         var config = deserializer.Deserialize<HardwareConfig>(yaml);
 
         AnsiConsole.MarkupLine($"[green]✓ Configuration loaded[/]");
-        AnsiConsole.MarkupLine($"[dim]  Port: {config.Servos.Driver.Serial_Port} @ {config.Servos.Driver.Baud_Rate} baud[/]");
+        AnsiConsole.MarkupLine($"[dim]  Port: {config.Servos.Driver.SerialPort} @ {config.Servos.Driver.BaudRate} baud[/]");
         AnsiConsole.WriteLine();
 
         return config;
