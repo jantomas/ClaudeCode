@@ -116,11 +116,17 @@ Install and run MaestroControlCenter.exe
 **Linux**:
 ```bash
 # Install Mono (if not installed)
-sudo apt install mono-runtime libmono-winforms2.0-cil
+# sudo apt install mono-runtime libmono-winforms2.0-cil
+sudo apt install -y mono-complete
+
+# Install libusb
+sudo apt install -y libusb-1.0-0-dev
 
 # Download Maestro Control Center
-wget https://www.pololu.com/file/0J315/maestro-linux-150116.tar.gz
-tar -xzf maestro-linux-150116.tar.gz
+# wget https://www.pololu.com/file/0J315/maestro-linux-150116.tar.gz
+# tar -xzf maestro-linux-150116.tar.gz
+wget https://www.pololu.com/file/0J315/maestro-linux-241004.tar.gz
+tar -xzf maestro-linux-241004.tar.gz
 cd maestro-linux
 ./MaestroControlCenter
 ```

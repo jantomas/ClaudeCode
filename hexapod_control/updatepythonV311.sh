@@ -17,7 +17,7 @@ if [ true ]; then
   tar xzf Python-${VERSION}.tgz
   cd Python-${VERSION}
   if [ ! -f python ]; then
-    ./configure --enable-optimizations
+    ./configure --enable-optimizations --with-openssl=/home/developer/openssl
   fi
   echo "### make altinstall"
   sudo make altinstall

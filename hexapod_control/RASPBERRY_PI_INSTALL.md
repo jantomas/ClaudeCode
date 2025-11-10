@@ -20,6 +20,34 @@ We provide **three solutions** - choose the one that works best for your use cas
 ### Installation Steps
 
 ```bash
+# Install OpenSSL
+wget https://www.openssl.org/source/openssl-3.6.0.tar.gz
+tar zxvf openssl-3.6.0.tar.gz
+cd openssl-3.6.0g
+# Make sure to changes username to your shell user
+./config --prefix=/home/username/openssl --openssldir=/home/username/openssl no-ssl2
+make
+make test
+# At the end, you should see All tests successful.
+make install
+cd ~
+export PATH=$HOME/openssl/bin:$PATH
+export LD_LIBRARY_PATH=$HOME/openssl/lib
+# Make sure to changes username to your shell user
+export LDFLAGS="-L /home/username/openssl/lib -Wl,-rpath,/home/username/openssl/lib"
+# A couple of tests
+which openssl
+openssl version
+
+# Install ctypes dependencies
+sudo apt install -y build-essential libffi-dev libssl-dev
+sudo apt install -y zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+sudo apt install -y libncurses5-dev libncursesw5-dev xz-utils tk-dev
+sudo apt install -y libxml2-dev libxmlsec1-dev liblzma-dev0
+
+# Switch to repository ...
+cd hexapod_control
+
 chmod +x updatepythonV311.sh
 # Takes cca 20 minutes
 sh updatepythonV311.sh
@@ -219,6 +247,12 @@ sudo apt install -y i2c-tools libi2c-dev
 sudo apt install -y pigpio python3-pigpio
 sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
+
+# Install ctypes dependencies
+sudo apt install -y build-essential libffi-dev libssl-dev
+sudo apt install -y zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
+sudo apt install -y libncurses5-dev libncursesw5-dev xz-utils tk-dev
+sudo apt install -y libxml2-dev libxmlsec1-dev liblzma-dev0
 ```
 
 ### 2. Enable Hardware Interfaces
@@ -296,6 +330,11 @@ sudo usermod -aG i2c $USER      # I2C access (IMU, sensors)
 sudo usermod -aG gpio $USER     # GPIO access
 sudo usermod -aG video $USER    # Camera access
 sudo usermod -aG hailo $USER    # Hailo AI accelerator (if installed)
+
+cd docs
+sudo sudo cp 99-pololu.rules /etc/udev/rules.d/
+sudo udevadm control --reload-rules
+cd ..
 
 # Log out and log back in for changes to take effect
 ```
