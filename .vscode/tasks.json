@@ -2,12 +2,58 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"type": "dotnet",
-			"task": "build ${workspaceFolder}\\MaestroServoTester\\MaestroServoTester.csproj",
-			"file": "${workspaceFolder}\\MaestroServoTester\\MaestroServoTester.csproj",
-			"group": "build",
+			"label": "build MaestroServoTester",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"${workspaceFolder}/MaestroServoTester/MaestroServoTester.csproj",
+				"-c",
+				"Release"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": "$msCompile",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "run MaestroServoTester",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/MaestroServoTester/MaestroServoTester.csproj"
+			],
+			"group": "test",
 			"problemMatcher": [],
-			"label": "build MaestroServoTester"
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			}
+		},
+		{
+			"label": "run MaestroServoTester (mock)",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"run",
+				"--project",
+				"${workspaceFolder}/MaestroServoTester/MaestroServoTester.csproj",
+				"--",
+				"--mock"
+			],
+			"group": "test",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			}
 		}
 	]
 }

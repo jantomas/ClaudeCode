@@ -120,6 +120,7 @@ cd publish/win-x64
 Install .NET 9 SDK:
 - Windows: Download from [dotnet.microsoft.com](https://dotnet.microsoft.com)
 - Linux: `sudo apt install dotnet-sdk-9.0`
+- Raspberry PI: https://learn.microsoft.com/en-us/dotnet/iot/deployment
 - macOS: `brew install dotnet`
 
 ### "Configuration file not found"
