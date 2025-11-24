@@ -7,46 +7,46 @@ hexapod:
 
   # Leg dimensions (in millimeters)
   dimensions:
-    coxa_length: 40.0      # Hip segment
-    femur_length: 60.0     # Upper leg segment
-    tibia_length: 135.0    # Lower leg segment
+    coxa_length: 40.0 # Hip segment
+    femur_length: 60.0 # Upper leg segment
+    tibia_length: 135.0 # Lower leg segment
 
   # Body dimensions
   body:
-    radius: 90.0           # Distance from center to leg attachment
-    height: 45.0           # Default standing height
+    radius: 90.0 # Distance from center to leg attachment
+    height: 45.0 # Default standing height
 
   # Leg attachment angles (degrees, relative to forward direction)
   leg_angles:
-    leg_0: 45.0            # Front right
-    leg_1: 90.0           # Middle right
-    leg_2: 135.0           # Rear right
-    leg_3: 225.0           # Rear left
-    leg_4: 270.0           # Middle left (note: mirrored)
-    leg_5: 315.0           # Front left
+    leg_0: 45.0 # Front right
+    leg_1: 90.0 # Middle right
+    leg_2: 135.0 # Rear right
+    leg_3: 225.0 # Rear left
+    leg_4: 270.0 # Middle left (note: mirrored)
+    leg_5: 315.0 # Front left
 
 # Servo Configuration
 servos:
   # Servo driver (Pololu Mini Maestro 18-Channel USB Servo Controller)
   driver:
     type: "PololuMaestro"
-    model: "Mini18"        # Mini Maestro 18-Channel
-    serial_port: "/dev/ttyACM0"  # USB serial port (Linux/RPi)
+    model: "Mini18" # Mini Maestro 18-Channel
+    serial_port: "COM3" #"/dev/ttyACM0"  # USB serial port (Linux/RPi)
     # Windows: "COM3" or similar (check Device Manager)
     # macOS: "/dev/cu.usbmodem*"
-    baud_rate: 9600      # Maestro baud rate (9600, 115200, etc.)
-    device_number: 12      # Maestro device number (default 12)
+    baud_rate: 9600 # Maestro baud rate (9600, 115200, etc.)
+    device_number: 12 # Maestro device number (default 12)
 
   # Servo specifications
   specs:
-    min_pulse: 992         # Minimum pulse width (quarter-microseconds, 992 = 248us)
-    max_pulse: 2000        # Maximum pulse width (quarter-microseconds, 8000 = 2000us)
-    min_angle: 0           # Minimum angle (degrees)
-    max_angle: 180         # Maximum angle (degrees)
+    min_pulse: 992 # Minimum pulse width (quarter-microseconds, 992 = 248us)
+    max_pulse: 8000 # Maximum pulse width (quarter-microseconds, 8000 = 2000us)
+    min_angle: 0 # Minimum angle (degrees)
+    max_angle: 180 # Maximum angle (degrees)
     # Note: Maestro uses quarter-microsecond units (4 = 1 microsecond)
 
-  # Individual servo mappings (Maestro channel assignments 0-17)
-  # Format: leg_index.joint_type: channel
+    # Individual servo mappings (Maestro channel assignments 0-17)
+    # Format: leg_index.joint_type: channel
   channels:
     # Leg 0 (Front Right)
     0.coxa: 15
@@ -101,42 +101,42 @@ servos:
 
 # IMU Sensor (BNO055 or MPU-9250)
 imu:
-  type: "MPU9250"          # Options: BNO055, MPU9250
-  i2c_address: 0x68        # MPU9250 default address (0x69 if AD0 pin high)
+  type: "MPU9250" # Options: BNO055, MPU9250
+  i2c_address: 0x68 # MPU9250 default address (0x69 if AD0 pin high)
   i2c_bus: 1
-  update_rate: 100         # Hz
+  update_rate: 100 # Hz
   calibration_file: "config/imu_calibration.json"
 
   # MPU9250 specific settings
-  gyro_range: 250          # Gyroscope range: 250, 500, 1000, 2000 (degrees/sec)
-  accel_range: 2           # Accelerometer range: 2, 4, 8, 16 (g)
-  mag_mode: 0x06           # Magnetometer mode: 0x02=8Hz, 0x06=100Hz
-  dlpf_cfg: 3              # Digital Low Pass Filter: 0-6 (3 = 41Hz bandwidth)
+  gyro_range: 250 # Gyroscope range: 250, 500, 1000, 2000 (degrees/sec)
+  accel_range: 2 # Accelerometer range: 2, 4, 8, 16 (g)
+  mag_mode: 0x6 # Magnetometer mode: 0x02=8Hz, 0x06=100Hz
+  dlpf_cfg: 3 # Digital Low Pass Filter: 0-6 (3 = 41Hz bandwidth)
 
 # GPS Module
 gps:
-  type: "NEO-M8N"          # u-blox NEO-M8N or NEO-M9N
+  type: "NEO-M8N" # u-blox NEO-M8N or NEO-M9N
   serial_port: "/dev/ttyAMA0"
   baud_rate: 9600
-  update_rate: 1           # Hz
+  update_rate: 1 # Hz
 
 # LiDAR Sensor
 lidar:
-  type: "TFMini-S"         # Options: TFMini-S, RPLidar-A1
+  type: "TFMini-S" # Options: TFMini-S, RPLidar-A1
   serial_port: "/dev/ttyUSB0"
   baud_rate: 115200
-  range_max: 12.0          # meters
-  range_min: 0.1           # meters
-  field_of_view: 360       # degrees (for scanning LiDAR)
+  range_max: 12.0 # meters
+  range_min: 0.1 # meters
+  field_of_view: 360 # degrees (for scanning LiDAR)
 
 # Camera
 camera:
-  type: "RaspberryPi_v3"   # Raspberry Pi Camera Module 3
+  type: "RaspberryPi_v3" # Raspberry Pi Camera Module 3
   resolution:
     width: 1280
     height: 720
   framerate: 30
-  rotation: 0              # degrees (0, 90, 180, 270)
+  rotation: 0 # degrees (0, 90, 180, 270)
 
 # Hailo-8L Accelerator
 hailo:
@@ -146,34 +146,34 @@ hailo:
   # YOLOv8n configuration
   yolov8:
     model_file: "yolov8n.hef"
-    input_size: [640, 640]
+    input_size: [ 640, 640 ]
     confidence_threshold: 0.5
     nms_threshold: 0.4
 
   # MobileNetV2 configuration
   mobilenet:
     model_file: "mobilenetv2.hef"
-    input_size: [224, 224]
+    input_size: [ 224, 224 ]
 
 # Ultrasonic Sensors (optional, for redundancy)
 ultrasonic:
   enabled: true
   sensors:
-    - name: "front"
-      trigger_pin: 23
-      echo_pin: 24
-    - name: "front_left"
-      trigger_pin: 17
-      echo_pin: 27
-    - name: "front_right"
-      trigger_pin: 22
-      echo_pin: 10
+  - name: "front"
+    trigger_pin: 23
+    echo_pin: 24
+  - name: "front_left"
+    trigger_pin: 17
+    echo_pin: 27
+  - name: "front_right"
+    trigger_pin: 22
+    echo_pin: 10
 
 # Touch/Pressure Sensors (FSR on feet)
 touch_sensors:
   enabled: true
   leg_sensors:
-    0: 5    # GPIO pin for leg 0 foot sensor
+    0: 5 # GPIO pin for leg 0 foot sensor
     1: 6
     2: 13
     3: 19
@@ -191,21 +191,21 @@ power:
 
 # LoRaWAN Module
 lorawan:
-  type: "SX1276"           # Options: SX1276, SX1278, RAK811
+  type: "SX1276" # Options: SX1276, SX1278, RAK811
   spi_bus: 0
   spi_device: 0
   interrupt_pin: 25
   reset_pin: 22
 
   # LoRaWAN configuration
-  frequency: 868.1         # MHz (EU868 band)
-  spreading_factor: 7      # 7-12 (lower = faster, shorter range)
-  bandwidth: 125000        # Hz
-  coding_rate: 5           # 5-8
-  tx_power: 14             # dBm
+  frequency: 868.1 # MHz (EU868 band)
+  spreading_factor: 7 # 7-12 (lower = faster, shorter range)
+  bandwidth: 125000 # Hz
+  coding_rate: 5 # 5-8
+  tx_power: 14 # dBm
 
   # The Things Network configuration
   ttn:
-    device_eui: "0000000000000000"  # Replace with actual DevEUI
-    app_eui: "0000000000000000"     # Replace with actual AppEUI
-    app_key: "00000000000000000000000000000000"  # Replace with actual AppKey
+    device_eui: "0000000000000000" # Replace with actual DevEUI
+    app_eui: "0000000000000000" # Replace with actual AppEUI
+    app_key: "00000000000000000000000000000000" # Replace with actual AppKey

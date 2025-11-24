@@ -7,6 +7,31 @@ from typing import Tuple
 from loguru import logger
 
 
+# Define C structures once at module level to avoid type conflicts
+class CPosition3D(ctypes.Structure):
+    _fields_ = [
+        ("x", ctypes.c_double),
+        ("y", ctypes.c_double),
+        ("z", ctypes.c_double),
+    ]
+
+
+class CJointAngles(ctypes.Structure):
+    _fields_ = [
+        ("coxa", ctypes.c_double),
+        ("femur", ctypes.c_double),
+        ("tibia", ctypes.c_double),
+    ]
+
+
+class CLegDimensions(ctypes.Structure):
+    _fields_ = [
+        ("coxa_length", ctypes.c_double),
+        ("femur_length", ctypes.c_double),
+        ("tibia_length", ctypes.c_double),
+    ]
+
+
 @dataclass
 class Position3D:
     """3D position in millimeters."""
@@ -16,13 +41,6 @@ class Position3D:
 
     def to_c_struct(self):
         """Convert to ctypes structure."""
-        class CPosition3D(ctypes.Structure):
-            _fields_ = [
-                ("x", ctypes.c_double),
-                ("y", ctypes.c_double),
-                ("z", ctypes.c_double),
-            ]
-
         return CPosition3D(self.x, self.y, self.z)
 
 
@@ -48,13 +66,6 @@ class LegDimensions:
 
     def to_c_struct(self):
         """Convert to ctypes structure."""
-        class CLegDimensions(ctypes.Structure):
-            _fields_ = [
-                ("coxa_length", ctypes.c_double),
-                ("femur_length", ctypes.c_double),
-                ("tibia_length", ctypes.c_double),
-            ]
-
         return CLegDimensions(self.coxa_length, self.femur_length, self.tibia_length)
 
 
@@ -103,28 +114,6 @@ class IKSolver:
 
     def _setup_ctypes(self):
         """Setup ctypes function signatures."""
-        # Define C structures
-        class CPosition3D(ctypes.Structure):
-            _fields_ = [
-                ("x", ctypes.c_double),
-                ("y", ctypes.c_double),
-                ("z", ctypes.c_double),
-            ]
-
-        class CJointAngles(ctypes.Structure):
-            _fields_ = [
-                ("coxa", ctypes.c_double),
-                ("femur", ctypes.c_double),
-                ("tibia", ctypes.c_double),
-            ]
-
-        class CLegDimensions(ctypes.Structure):
-            _fields_ = [
-                ("coxa_length", ctypes.c_double),
-                ("femur_length", ctypes.c_double),
-                ("tibia_length", ctypes.c_double),
-            ]
-
         # solve_ik function
         self._lib.solve_ik.argtypes = [CPosition3D, CLegDimensions]
         self._lib.solve_ik.restype = CJointAngles
@@ -180,13 +169,6 @@ class IKSolver:
         """
         if self._use_python_fallback:
             return self._solve_fk_python(angles, dimensions)
-
-        class CJointAngles(ctypes.Structure):
-            _fields_ = [
-                ("coxa", ctypes.c_double),
-                ("femur", ctypes.c_double),
-                ("tibia", ctypes.c_double),
-            ]
 
         c_angles = CJointAngles(angles.coxa, angles.femur, angles.tibia)
         c_result = self._lib.solve_fk(c_angles, dimensions.to_c_struct())
