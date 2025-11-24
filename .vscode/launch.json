@@ -9,8 +9,14 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build MaestroServoTester",
-            "program": "${workspaceFolder}/MaestroServoTester/bin/Debug/net9.0/MaestroServoTester.exe",
-            "args": ["--config", "${workspaceFolder}/hexapod_control/config/hardware.yaml", "--channel", "0"],
+            "program": "dotnet",
+            "args": [
+                "${workspaceFolder}/MaestroServoTester/bin/Debug/net9.0/MaestroServoTester.dll", 
+                "--config", 
+                "${workspaceFolder}/hexapod_control/config/hardware.yaml", 
+                "--channel", 
+                "1"
+            ],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,
             "console": "internalConsole"

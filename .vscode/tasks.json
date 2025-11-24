@@ -2,7 +2,7 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "build MaestroServoTester",
+			"label": "build MaestroServoTester release",
 			"type": "shell",
 			"command": "dotnet",
 			"args": [
@@ -13,7 +13,7 @@
 			],
 			"group": {
 				"kind": "build",
-				"isDefault": true
+				"isDefault": false
 			},
 			"problemMatcher": "$msCompile",
 			"presentation": {
@@ -21,6 +21,26 @@
 				"panel": "shared"
 			}
 		},
+		{
+			"label": "build MaestroServoTester",
+			"type": "shell",
+			"command": "dotnet",
+			"args": [
+				"build",
+				"${workspaceFolder}/MaestroServoTester/MaestroServoTester.csproj",
+				"-c",
+				"Debug"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": "$msCompile",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},		
 		{
 			"label": "run MaestroServoTester",
 			"type": "shell",
